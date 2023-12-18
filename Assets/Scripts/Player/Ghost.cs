@@ -8,7 +8,9 @@ public class Ghost : MonoBehaviour
     private float ghostDelaySeconds;
     public GameObject ghost;
     public bool makeGhost = false;
+    
     // Start is called before the first frame update
+    
     void Start()
     {
         ghostDelaySeconds = ghostDelay;

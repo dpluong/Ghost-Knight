@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
                 dashTime = startDashTime;
                 rigidBody.velocity = Vector2.zero;
                 distanceTravelled += Vector3.Distance(transform.position, lastPosition);
-                Debug.Log("dash distance is " + distanceTravelled);
+                //Debug.Log("dash distance is " + distanceTravelled);
                 distanceTravelled = 0;
 
                 if (isOnAir)

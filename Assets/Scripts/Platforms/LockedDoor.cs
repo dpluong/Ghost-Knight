@@ -23,6 +23,4 @@ public class LockedDoor : MonoBehaviour
             lockedDoor.SetBool("doorTrigger", false);
         }
     }
-
-
 }

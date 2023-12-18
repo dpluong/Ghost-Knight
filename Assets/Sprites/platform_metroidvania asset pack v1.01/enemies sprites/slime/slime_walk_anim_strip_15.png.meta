@@ -48,7 +48,7 @@ TextureImporter:
       213: 1908998100897791413
     second: slime_walk_anim_strip_15_14
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -69,6 +69,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -107,6 +108,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -122,6 +124,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -460,6 +486,22 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      slime_walk_anim_strip_15_12: 8866576736846584026
+      slime_walk_anim_strip_15_3: -5875821445719288973
+      slime_walk_anim_strip_15_14: 1908998100897791413
+      slime_walk_anim_strip_15_6: -8638225023099586266
+      slime_walk_anim_strip_15_2: -4497068974636521811
+      slime_walk_anim_strip_15_13: 3761636257525902792
+      slime_walk_anim_strip_15_8: -8285757388227157481
+      slime_walk_anim_strip_15_10: -7607273933111477781
+      slime_walk_anim_strip_15_0: -2325216643911212202
+      slime_walk_anim_strip_15_1: 789489969757258557
+      slime_walk_anim_strip_15_9: 8811490195307566953
+      slime_walk_anim_strip_15_5: 6164234618649752919
+      slime_walk_anim_strip_15_4: 4852437831693834423
+      slime_walk_anim_strip_15_7: -4487001021355472299
+      slime_walk_anim_strip_15_11: 5060140053435829621
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
