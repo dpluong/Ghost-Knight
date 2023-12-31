@@ -11,23 +11,35 @@ public class CharacterController : MonoBehaviour
 
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
+    private BoxCollider2D bottomCollider;
+
     private InputAction moveAction;
-    
+
+    [Header("Jump Configuration")]
+    [SerializeField] private float jumpForce = 35f;
+    [SerializeField] private float gravityScale = 10f;
+    [SerializeField] private float fallingGravityScale = 40f;
+    [SerializeField] private LayerMask groundLayers;
+    private bool onGround = true;
 
     void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        bottomCollider = GetComponent<BoxCollider2D>();
 
         moveAction = actions.FindActionMap("Player").FindAction("Move");
-
-        //actions.FindActionMap("Player").FindAction("Jump").performed += OnJump;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
-            Debug.Log("Jump!");
+        {
+            if (onGround)
+            {
+                myRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
+        }
     }
 
     private void Move()
@@ -52,6 +64,6 @@ public class CharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
     }
 }
