@@ -20,11 +20,15 @@ public class CharacterController : MonoBehaviour
     private Vector2 moveVector;
 
     [Header("Jump Configuration")]
-    [SerializeField] private float jumpForce = 35f;
-    [SerializeField] private float gravityScale = 10f;
-    [SerializeField] private float fallingGravityScale = 40f;
     [SerializeField] private LayerMask groundLayers;
-    private bool onGround = true;
+    [SerializeField] private float buttonHoldingTime = 0.3f;
+    [SerializeField] float jumpHeight = 5f;
+    [SerializeField] float cancelRate = 100f;
+    private float jumpTime;
+    private bool jumping;
+    private bool jumpCancelled;
+    private bool onGround;
+    
 
     void Awake()
     {
@@ -41,8 +45,17 @@ public class CharacterController : MonoBehaviour
         {
             if (onGround)
             {
-                myRigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
+                myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                jumping = true;
+                jumpCancelled = false;
+                jumpTime = 0;
             }
+        }
+
+        if (context.canceled)
+        {
+            jumpCancelled = true;
         }
     }
 
@@ -75,12 +88,24 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
-        
+        if (jumping)
+        {
+            jumpTime += Time.deltaTime;
+            if (jumpTime > buttonHoldingTime)
+            {
+                jumping = false;
+            }
+        }
+
     }
 
     void FixedUpdate()
     {
         onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
         Move();
+        if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
+        {
+            myRigidbody.AddForce(Vector2.down * cancelRate);
+        }
     }
 }
