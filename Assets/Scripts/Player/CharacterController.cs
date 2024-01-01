@@ -12,8 +12,12 @@ public class CharacterController : MonoBehaviour
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
     private BoxCollider2D bottomCollider;
-
     private InputAction moveAction;
+
+    [Header("Move Configuration")]
+    [SerializeField] float speed = 8f;
+    private bool isFacingRight = true;
+    private Vector2 moveVector;
 
     [Header("Jump Configuration")]
     [SerializeField] private float jumpForce = 35f;
@@ -44,8 +48,20 @@ public class CharacterController : MonoBehaviour
 
     private void Move()
     {
-        Vector2 moveVector = moveAction.ReadValue<Vector2>();
-        Debug.Log(moveVector);
+        moveVector = moveAction.ReadValue<Vector2>();
+        myRigidbody.velocity = new Vector2 (moveVector.x * speed, myRigidbody.velocity.y);
+        Flip();
+    }
+
+    private void Flip()
+    {
+        if ((isFacingRight && moveVector.x < 0f) || (!isFacingRight && moveVector.x > 0f))
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 
     void OnEnable()
@@ -65,5 +81,6 @@ public class CharacterController : MonoBehaviour
     void FixedUpdate()
     {
         onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
+        Move();
     }
 }
