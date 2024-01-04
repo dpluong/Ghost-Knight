@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DesignPatterns.State;
 
 [RequireComponent(typeof(PlayerInput))]
 public class CharacterController : MonoBehaviour
 {
     public InputActionAsset actions;
-
+    public Rigidbody2D MyRigidbody => myRigidbody;
+    public StateMachine PlayerStateMachine => playerStateMachine;
+    public bool IsGrounded => onGround;
 
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
     private BoxCollider2D bottomCollider;
     private InputAction moveAction;
+    private StateMachine playerStateMachine;
 
     [Header("Move Configuration")]
     [SerializeField] float speed = 8f;
@@ -28,6 +32,8 @@ public class CharacterController : MonoBehaviour
     private bool jumping;
     private bool jumpCancelled;
     private bool onGround;
+
+
     
 
     void Awake()
