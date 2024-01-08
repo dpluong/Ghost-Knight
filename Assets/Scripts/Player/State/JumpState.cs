@@ -17,7 +17,7 @@ namespace DesignPatterns.State
         public void Enter()
         {
             // code that runs when we first enter the state
-            //Debug.Log("Entering Jump State");
+            Debug.Log("Entering Jump State");
         }
 
         // per-frame logic, include condition to transition to a new state
@@ -25,6 +25,7 @@ namespace DesignPatterns.State
         {
 
             //Debug.Log("Updating Jump State");
+    
 
             if (player.IsGrounded)
             {

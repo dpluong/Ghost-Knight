@@ -48,7 +48,7 @@ namespace DesignPatterns.State
             // notify other objects that state has changed
             stateChanged?.Invoke(nextState);
         }
-
+        
         // allow the StateMachine to update this state
         public void Update()
         {
