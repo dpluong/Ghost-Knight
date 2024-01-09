@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 1443203914}
   - component: {fileID: 1443203917}
   - component: {fileID: 1443203918}
+  - component: {fileID: 1443203919}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -521,19 +522,7 @@ MonoBehaviour:
     m_ActionId: 96cfcf62-d204-4cca-864a-2510503f75a5
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1443203918}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnJump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: d3985e3f-e340-4419-acb6-392b6dcc84a5
     m_ActionName: Player/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
@@ -548,12 +537,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443203910}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf161e4cd6e6197439a5d996cd372de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 4ad1dd3045012f44e8323b976a989d94, type: 3}
   speed: 6
   groundLayers:
     serializedVersion: 2
@@ -561,6 +549,21 @@ MonoBehaviour:
   buttonHoldingTime: 0.2
   jumpHeight: 1.2
   cancelRate: 90
+--- !u!114 &1443203919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443203910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 927823bd0c3465f4b965897668fd9251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: 4ad1dd3045012f44e8323b976a989d94, type: 3}
+  moveVector: {x: 0, y: 0}
+  jumpTrigger: 0
 --- !u!1 &1611232706
 GameObject:
   m_ObjectHideFlags: 0

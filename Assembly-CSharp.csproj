@@ -41,7 +41,12 @@
      <Compile Include="Assets\Scripts\Environment\WaterfallController.cs" />
      <Compile Include="Assets\Scripts\Level Control\SelectLevel.cs" />
      <Compile Include="Assets\Scripts\Platforms\LockedDoor.cs" />
+     <Compile Include="Assets\Scripts\Player\State\StateMachine.cs" />
+     <Compile Include="Assets\Scripts\Player\State\IState.cs" />
+     <Compile Include="Assets\Scripts\Player\State\JumpState.cs" />
+     <Compile Include="Assets\Scripts\Player\State\WalkState.cs" />
      <Compile Include="Assets\Scripts\Traps\Rotation.cs" />
+     <Compile Include="Assets\Scripts\Input\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Level Control\LevelControl.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Traps\Spikes.cs" />
@@ -53,14 +58,10 @@
      <Compile Include="Assets\Scripts\Enemy\EnemyMovement.cs" />
      <Compile Include="Assets\Scripts\Enemy\SlimeController.cs" />
      <Compile Include="Assets\Scripts\Items\CoinPickup.cs" />
+     <Compile Include="Assets\Scripts\Player\State\IdleState.cs" />
      <Compile Include="Assets\Scripts\Platforms\Plate.cs" />
      <Compile Include="Assets\Scripts\Enemy\SlimeMovement.cs" />
      <Compile Include="Assets\Scripts\Platforms\MovableObject.cs" />
-     <Compile Include="Assets\Scripts\Player\State\IState.cs" />
-     <Compile Include="Assets\Scripts\Player\State\IdleState.cs" />
-     <Compile Include="Assets\Scripts\Player\State\JumpState.cs" />
-     <Compile Include="Assets\Scripts\Player\State\WalkState.cs" />
-     <Compile Include="Assets\Scripts\Player\State\StateMachine.cs" />
     <Reference Include="UnityEngine">
         <HintPath>D:\Programs\2021.3.18f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

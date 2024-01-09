@@ -7,21 +7,27 @@ using DesignPatterns.State;
 [RequireComponent(typeof(PlayerInput))]
 public class CharacterController : MonoBehaviour
 {
-    public InputActionAsset actions;
+    //public InputActionAsset actions;
+    
     public Rigidbody2D MyRigidbody => myRigidbody;
     public StateMachine PlayerStateMachine => playerStateMachine;
+    public PlayerInput PlayerInput => playerInput;
     public bool IsGrounded => onGround;
+    //public float JumpTime => jumpTime;
+   // public bool Jumping => jumping;
+    //public bool JumpCancelled => jumpCancelled;
 
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
     private BoxCollider2D bottomCollider;
-    private InputAction moveAction;
+   // private InputAction moveAction;
     private StateMachine playerStateMachine;
+    private PlayerInput playerInput;
 
     [Header("Move Configuration")]
     [SerializeField] float speed = 8f;
     private bool isFacingRight = true;
-    private Vector2 moveVector;
+    //private Vector2 moveVector;
 
     [Header("Jump Configuration")]
     [SerializeField] private LayerMask groundLayers;
@@ -33,16 +39,43 @@ public class CharacterController : MonoBehaviour
     private bool jumpCancelled;
     private bool onGround;
 
-
-    
-
     void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         bottomCollider = GetComponent<BoxCollider2D>();
+        playerStateMachine = new StateMachine(this);
 
-        moveAction = actions.FindActionMap("Player").FindAction("Move");
+        //moveAction = actions.FindActionMap("Player").FindAction("Move");
+    }
+
+    void Start() 
+    {
+        playerStateMachine.Initialize(playerStateMachine.idleState);        
+    }
+
+    void Update()
+    {
+        playerStateMachine.Update();
+        /*
+        if (jumping)
+        {
+            jumpTime += Time.deltaTime;
+            if (jumpTime > buttonHoldingTime)
+            {
+                jumping = false;
+            }
+        }*/
+    }
+
+    void FixedUpdate()
+    {
+        onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
+        //Move();
+        if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
+        {
+            myRigidbody.AddForce(Vector2.down * cancelRate);
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -65,6 +98,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    /*
     private void Move()
     {
         moveVector = moveAction.ReadValue<Vector2>();
@@ -81,37 +115,5 @@ public class CharacterController : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
-    }
-
-    void OnEnable()
-    {
-        actions.FindActionMap("Player").Enable();
-    }
-    void OnDisable()
-    {
-        actions.FindActionMap("Player").Disable();
-    }
-
-    void Update()
-    {
-        if (jumping)
-        {
-            jumpTime += Time.deltaTime;
-            if (jumpTime > buttonHoldingTime)
-            {
-                jumping = false;
-            }
-        }
-
-    }
-
-    void FixedUpdate()
-    {
-        onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
-        Move();
-        if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
-        {
-            myRigidbody.AddForce(Vector2.down * cancelRate);
-        }
-    }
+    }*/  
 }
