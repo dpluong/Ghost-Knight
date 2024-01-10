@@ -16,6 +16,11 @@ namespace DesignPatterns.State
             // per-frame logic, include condition to transition to a new state
         }
 
+        public void FixedUpdate()
+        {
+            // per-frame logic, include condition to transition to a new state
+        }
+
         public void Exit()
         {
             // code that runs when we exit the state

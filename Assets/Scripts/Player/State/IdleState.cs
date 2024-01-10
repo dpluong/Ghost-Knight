@@ -25,22 +25,33 @@ namespace DesignPatterns.State
         public void Update()
         {
             // if we're no longer grounded, transition to jumping
+            /*
             if (!player.IsGrounded)
             {
                 player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.jumpState);
-            }
+            }*/
 
             // if we move above a minimum threshold, transition to walking
-            if (Mathf.Abs(player.MyRigidbody.velocity.x) > 0.1f)
+            /*if (Mathf.Abs(player.MyRigidbody.velocity.x) > 0.1f)
+            {
+                player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.walkState);
+            }*/
+
+            if (player.PlayerInput.moveVector.x != 0f)
             {
                 player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.walkState);
             }
         }
 
+        public void FixedUpdate()
+        {
+
+        }
+
         public void Exit()
         {
             // code that runs when we exit the state
-            //Debug.Log("Exiting Idle State");
+            Debug.Log("Exiting Idle State");
         }
     }
 }

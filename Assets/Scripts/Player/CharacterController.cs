@@ -9,24 +9,25 @@ public class CharacterController : MonoBehaviour
 {
     //public InputActionAsset actions;
     
-    public Rigidbody2D MyRigidbody => myRigidbody;
-    public StateMachine PlayerStateMachine => playerStateMachine;
-    public PlayerInput PlayerInput => playerInput;
-    public bool IsGrounded => onGround;
+    
+    
+    
+    
     //public float JumpTime => jumpTime;
    // public bool Jumping => jumping;
     //public bool JumpCancelled => jumpCancelled;
 
-    private Rigidbody2D myRigidbody;
+    private Rigidbody2D myRigidbody; public Rigidbody2D MyRigidbody => myRigidbody;
+    private Transform myTransform; public Transform MyTransform => myTransform;
     private Animator myAnimator;
     private BoxCollider2D bottomCollider;
    // private InputAction moveAction;
-    private StateMachine playerStateMachine;
-    private PlayerInput playerInput;
+    private StateMachine playerStateMachine; public StateMachine PlayerStateMachine => playerStateMachine;
+    private PlayerInput playerInput; public PlayerInput PlayerInput => playerInput;
 
     [Header("Move Configuration")]
-    [SerializeField] float speed = 8f;
-    private bool isFacingRight = true;
+    [SerializeField] float speed = 8f; public float Speed => speed;
+    //private bool isFacingRight = true;
     //private Vector2 moveVector;
 
     [Header("Jump Configuration")]
@@ -37,14 +38,16 @@ public class CharacterController : MonoBehaviour
     private float jumpTime;
     private bool jumping;
     private bool jumpCancelled;
-    private bool onGround;
+    private bool onGround; public bool IsGrounded => onGround;
 
     void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        myTransform = GetComponent<Transform>();
         bottomCollider = GetComponent<BoxCollider2D>();
         playerStateMachine = new StateMachine(this);
+        playerInput = GetComponent<PlayerInput>();
 
         //moveAction = actions.FindActionMap("Player").FindAction("Move");
     }
@@ -72,6 +75,7 @@ public class CharacterController : MonoBehaviour
     {
         onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
         //Move();
+        playerStateMachine.FixedUpdate();
         if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
         {
             myRigidbody.AddForce(Vector2.down * cancelRate);
