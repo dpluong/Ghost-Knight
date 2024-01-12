@@ -26,11 +26,11 @@ namespace DesignPatterns.State
         public void Update()
         {
             // if we are no longer grounded, transition to jumping
-            /*
-            if (!player.IsGrounded)
+            
+            if (player.IsGrounded && player.PlayerInput.jumpTrigger)
             {
                 player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.jumpState);
-            }*/
+            }
 
             // if we slow to within a minimum velocity, transition to idling/standing
             if (Mathf.Abs(player.MyRigidbody.velocity.x) < 0.1f)

@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour
     private InputAction moveAction;
     public Vector2 moveVector;
     public bool jumpTrigger = false;
+    public bool jumpDisabled = false;
 
     void Awake()
     {
@@ -44,9 +45,9 @@ public class PlayerInput : MonoBehaviour
         jumpTrigger = true;
     }
 
-    private void OnJumpCancel(InputAction.CallbackContext obj)
+    private void OnJumpCancel(InputAction.CallbackContext context)
     {
-        jumpTrigger = false;
+        jumpDisabled = true;
     }
 
 }

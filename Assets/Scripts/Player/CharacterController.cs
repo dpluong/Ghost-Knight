@@ -32,12 +32,12 @@ public class CharacterController : MonoBehaviour
 
     [Header("Jump Configuration")]
     [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float buttonHoldingTime = 0.3f;
-    [SerializeField] float jumpHeight = 5f;
-    [SerializeField] float cancelRate = 100f;
-    private float jumpTime;
-    private bool jumping;
-    private bool jumpCancelled;
+    [SerializeField] private float buttonHoldingTime = 0.3f; public float ButtonHoldingTime => buttonHoldingTime;
+    [SerializeField] float jumpHeight = 5f; public float JumpHeight => jumpHeight;
+    [SerializeField] float cancelRate = 100f; public float CancelRate => cancelRate;
+    //private float jumpTime;
+    //private bool jumping;
+    //private bool jumpCancelled;
     private bool onGround; public bool IsGrounded => onGround;
 
     void Awake()
@@ -76,12 +76,16 @@ public class CharacterController : MonoBehaviour
         onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
         //Move();
         playerStateMachine.FixedUpdate();
-        if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
+        
+        
+        /*if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
         {
             myRigidbody.AddForce(Vector2.down * cancelRate);
-        }
+        }*/
     }
 
+
+/*
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -100,7 +104,7 @@ public class CharacterController : MonoBehaviour
         {
             jumpCancelled = true;
         }
-    }
+    }*/
 
     /*
     private void Move()

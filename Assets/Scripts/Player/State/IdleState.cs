@@ -25,11 +25,12 @@ namespace DesignPatterns.State
         public void Update()
         {
             // if we're no longer grounded, transition to jumping
-            /*
-            if (!player.IsGrounded)
+            
+            if (player.IsGrounded && player.PlayerInput.jumpTrigger)
             {
+                
                 player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.jumpState);
-            }*/
+            }
 
             // if we move above a minimum threshold, transition to walking
             /*if (Mathf.Abs(player.MyRigidbody.velocity.x) > 0.1f)
@@ -45,7 +46,7 @@ namespace DesignPatterns.State
 
         public void FixedUpdate()
         {
-
+            
         }
 
         public void Exit()
