@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DesignPatterns.State;
+using System;
 
 [RequireComponent(typeof(PlayerInput))]
 public class CharacterController : MonoBehaviour
@@ -16,12 +17,13 @@ public class CharacterController : MonoBehaviour
     private Animator myAnimator;
     private BoxCollider2D bottomCollider;
     private InputAction moveAction;
+    private InputAction jumpAction;
     private StateMachine playerStateMachine;
 
     [Header("Move Configuration")]
     [SerializeField] float speed = 8f;
     private bool isFacingRight = true;
-    private Vector2 moveVector;
+    public Vector2 moveVector;
 
     [Header("Jump Configuration")]
     [SerializeField] private LayerMask groundLayers;
@@ -29,7 +31,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float jumpHeight = 5f;
     [SerializeField] float cancelRate = 100f;
     private float jumpTime;
-    private bool jumping;
+    public bool jumping;
     private bool jumpCancelled;
     private bool onGround;
 
@@ -43,44 +45,16 @@ public class CharacterController : MonoBehaviour
         bottomCollider = GetComponent<BoxCollider2D>();
 
         moveAction = actions.FindActionMap("Player").FindAction("Move");
+        jumpAction = actions.FindActionMap("Player").FindAction("Jump");
+        jumpAction.performed += OnJump;
+        jumpAction.canceled += OnJumpCancel;
+
+        playerStateMachine = new StateMachine(this);
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    void Start() 
     {
-        if (context.performed)
-        {
-            if (onGround)
-            {
-                float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
-                myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-                jumping = true;
-                jumpCancelled = false;
-                jumpTime = 0;
-            }
-        }
-
-        if (context.canceled)
-        {
-            jumpCancelled = true;
-        }
-    }
-
-    private void Move()
-    {
-        moveVector = moveAction.ReadValue<Vector2>();
-        myRigidbody.velocity = new Vector2 (moveVector.x * speed, myRigidbody.velocity.y);
-        Flip();
-    }
-
-    private void Flip()
-    {
-        if ((isFacingRight && moveVector.x < 0f) || (!isFacingRight && moveVector.x > 0f))
-        {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-        }
+        playerStateMachine.Initialize(playerStateMachine.idleState);   
     }
 
     void OnEnable()
@@ -94,6 +68,8 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
+        PollInputs();
+        playerStateMachine.Update();
         if (jumping)
         {
             jumpTime += Time.deltaTime;
@@ -112,6 +88,48 @@ public class CharacterController : MonoBehaviour
         if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
         {
             myRigidbody.AddForce(Vector2.down * cancelRate);
+        }
+    }
+
+    private void PollInputs()
+    {
+        moveVector = moveAction.ReadValue<Vector2>();
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (onGround)
+        {
+            float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
+            myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            jumping = true;
+            jumpCancelled = false;
+            jumpTime = 0;
+        }
+    }
+
+    private void OnJumpCancel(InputAction.CallbackContext context)
+    {
+        jumpCancelled = true;
+    }
+
+    private void Move()
+    {
+        if (moveVector.x != 0)
+        {
+            myRigidbody.velocity = new Vector2(moveVector.x * speed, myRigidbody.velocity.y);
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        if ((isFacingRight && moveVector.x < 0f) || (!isFacingRight && moveVector.x > 0f))
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 }

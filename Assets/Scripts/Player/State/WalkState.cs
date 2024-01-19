@@ -17,7 +17,7 @@ namespace DesignPatterns.State
         public void Enter()
         {
             // code that runs when we first enter the state
-            //Debug.Log("Entering Walk State");
+            Debug.Log("Entering Walk State");
         }
 
         // per-frame logic, include condition to transition to a new state
@@ -39,7 +39,7 @@ namespace DesignPatterns.State
         public void Exit()
         {
             // code that runs when we exit the state
-            //Debug.Log("Exiting Walk State");
+            Debug.Log("Exiting Walk State");
         }
 
     }

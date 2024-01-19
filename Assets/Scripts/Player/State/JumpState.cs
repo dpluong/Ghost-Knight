@@ -17,7 +17,7 @@ namespace DesignPatterns.State
         public void Enter()
         {
             // code that runs when we first enter the state
-            //Debug.Log("Entering Jump State");
+            Debug.Log("Entering Jump State");
         }
 
         // per-frame logic, include condition to transition to a new state
@@ -28,7 +28,7 @@ namespace DesignPatterns.State
 
             if (player.IsGrounded)
             {
-                if (Mathf.Abs(player.MyRigidbody.velocity.x) > 0.1f)
+                if (Mathf.Abs(player.MyRigidbody.velocity.x) < 0.1f)
                 {
                     player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.idleState);
                 }
@@ -42,7 +42,7 @@ namespace DesignPatterns.State
         public void Exit()
         {
             // code that runs when we exit the state
-            //Debug.Log("Exiting Jump State");
+            Debug.Log("Exiting Jump State");
         }
 
     }

@@ -18,14 +18,20 @@ namespace DesignPatterns.State
         public void Enter()
         {
             // code that runs when we first enter the state
-            //Debug.Log("Entering Idle State");
+            Debug.Log("Entering Idle State");
         }
 
         // per-frame logic, include condition to transition to a new state
         public void Update()
         {
             // if we're no longer grounded, transition to jumping
-            if (!player.IsGrounded)
+            if (player.jumping && player.moveVector.x != 0)
+            {
+                Debug.Log(player.jumping);
+                Debug.Log(player.moveVector);
+            }
+            
+            if (!player.IsGrounded && player.jumping)
             {
                 player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.jumpState);
             }
@@ -40,7 +46,7 @@ namespace DesignPatterns.State
         public void Exit()
         {
             // code that runs when we exit the state
-            //Debug.Log("Exiting Idle State");
+            Debug.Log("Exiting Idle State");
         }
     }
 }
