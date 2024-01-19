@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DesignPatterns.State;
+using System;
 
 [RequireComponent(typeof(PlayerInput))]
 public class CharacterController : MonoBehaviour
@@ -27,7 +28,7 @@ public class CharacterController : MonoBehaviour
 
     [Header("Move Configuration")]
     [SerializeField] float speed = 8f; public float Speed => speed;
-    //private bool isFacingRight = true;
+    private bool isFacingRight = true;
     //private Vector2 moveVector;
 
     [Header("Jump Configuration")]
@@ -35,10 +36,19 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float buttonHoldingTime = 0.3f; public float ButtonHoldingTime => buttonHoldingTime;
     [SerializeField] float jumpHeight = 5f; public float JumpHeight => jumpHeight;
     [SerializeField] float cancelRate = 100f; public float CancelRate => cancelRate;
-    //private float jumpTime;
-    //private bool jumping;
-    //private bool jumpCancelled;
+    private float jumpTime;
+    private bool jumping;
+    private bool jumpCancelled;
     private bool onGround; public bool IsGrounded => onGround;
+
+
+    [Header("Player Input")]
+    public InputActionAsset actions;
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    public Vector2 moveVector;
+    public bool jumpTrigger = false;
+    public bool jumpDisabled = false;
 
     void Awake()
     {
@@ -49,7 +59,11 @@ public class CharacterController : MonoBehaviour
         playerStateMachine = new StateMachine(this);
         playerInput = GetComponent<PlayerInput>();
 
-        //moveAction = actions.FindActionMap("Player").FindAction("Move");
+        moveAction = actions.FindActionMap("Player").FindAction("Move");
+        jumpAction = actions.FindActionMap("Player").FindAction("Jump");
+        jumpAction.performed += OnJump;
+        jumpAction.canceled += OnJumpCancel;
+
     }
 
     void Start() 
@@ -59,8 +73,13 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
+        PollInputs();
+        if (jumpTrigger && moveVector.x != 0)
+        {
+            Debug.Log("jump and move");
+        }
         playerStateMachine.Update();
-        /*
+        
         if (jumping)
         {
             jumpTime += Time.deltaTime;
@@ -68,45 +87,56 @@ public class CharacterController : MonoBehaviour
             {
                 jumping = false;
             }
-        }*/
+        }
     }
 
     void FixedUpdate()
     {
         onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
-        //Move();
+        Move();
         playerStateMachine.FixedUpdate();
         
         
-        /*if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
+        if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
         {
             myRigidbody.AddForce(Vector2.down * cancelRate);
-        }*/
+        }
     }
 
+    void OnEnable()
+    {
+        actions.FindActionMap("Player").Enable();
+    }
 
-/*
+    void OnDisable()
+    {
+        actions.FindActionMap("Player").Disable();
+    }
+
+    private void PollInputs()
+    {
+        moveVector = moveAction.ReadValue<Vector2>();
+    }
+
+    private void OnJumpCancel(InputAction.CallbackContext context)
+    {
+        jumpDisabled = true;
+        jumpCancelled = true;
+    }
+
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (onGround)
         {
-            if (onGround)
-            {
-                float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
-                myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-                jumping = true;
-                jumpCancelled = false;
-                jumpTime = 0;
-            }
+            float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
+            myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            jumping = true;
+            jumpCancelled = false;
+            jumpTime = 0;
         }
+    }
 
-        if (context.canceled)
-        {
-            jumpCancelled = true;
-        }
-    }*/
-
-    /*
+    
     private void Move()
     {
         moveVector = moveAction.ReadValue<Vector2>();
@@ -123,5 +153,5 @@ public class CharacterController : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
-    }*/  
+    }
 }

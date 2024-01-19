@@ -26,8 +26,7 @@ namespace DesignPatterns.State
         public void Update()
         {
             // if we are no longer grounded, transition to jumping
-            
-            if (player.IsGrounded && player.PlayerInput.jumpTrigger)
+            if (player.IsGrounded && player.jumpTrigger)
             {
                 player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.jumpState);
             }
@@ -52,7 +51,7 @@ namespace DesignPatterns.State
 
         private void Move()
         {
-            moveVector = player.PlayerInput.moveVector;
+            moveVector = player.moveVector;
             player.MyRigidbody.velocity = new Vector2(moveVector.x * player.Speed, player.MyRigidbody.velocity.y);
             Flip();
         }

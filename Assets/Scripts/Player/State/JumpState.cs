@@ -30,7 +30,8 @@ namespace DesignPatterns.State
                 jumping = true;
                 jumpCancelled = false;
                 jumpTime = 0;
-                player.PlayerInput.jumpDisabled = false;
+                player.jumpDisabled = false;
+                //player.MyAnimator.Play(PLAYER_JUMP_Up);
             }
             
         }
@@ -38,13 +39,12 @@ namespace DesignPatterns.State
         // per-frame logic, include condition to transition to a new state
         public void Update()
         {
-
             if (jumping)
             {
                 
                 jumpTime += Time.deltaTime;
 
-                if (player.PlayerInput.jumpDisabled)
+                if (player.jumpDisabled)
                 {
                     Debug.Log("jump canceled");
                     jumpCancelled = true;
@@ -62,7 +62,8 @@ namespace DesignPatterns.State
                 {
                     player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.idleState);
                 }
-                else if (player.PlayerInput.moveVector.x != 0f)
+                else if (player.moveVector.x != 0f && Mathf.Abs(player.MyRigidbody.velocity.y) < 0.1f)
+
                 {
                     player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.walkState);
                 }
@@ -84,8 +85,8 @@ namespace DesignPatterns.State
         {
             // code that runs when we exit the state
             Debug.Log("Exiting Jump State");
-            player.PlayerInput.jumpTrigger = false;
-            player.PlayerInput.jumpDisabled = false;
+            player.jumpTrigger = false;
+            player.jumpDisabled = false;
         }
 
     }

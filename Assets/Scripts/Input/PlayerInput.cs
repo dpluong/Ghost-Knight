@@ -16,10 +16,12 @@ public class PlayerInput : MonoBehaviour
     void Awake()
     {
         moveAction = actions.FindActionMap("Player").FindAction("Move");
-        actions.FindActionMap("Player").FindAction("Jump").performed += OnJump;
-        actions.FindActionMap("Player").FindAction("Jump").canceled += OnJumpCancel;
+        //jumpAction = actions.FindActionMap("Player").FindAction("Jump");
+       // moveAction.performed += OnMove;
+        //actions.FindActionMap("Player").FindAction("Jump").performed += OnJump;
+        //actions.FindActionMap("Player").FindAction("Jump").canceled += OnJumpCancel;
+    
     }
-
     void Update()
     {
         ReadMoveInput();   
@@ -48,6 +50,7 @@ public class PlayerInput : MonoBehaviour
     private void OnJumpCancel(InputAction.CallbackContext context)
     {
         jumpDisabled = true;
+        Debug.Log(actions.FindActionMap("Player").FindAction("Jump").ReadValue<float>());
     }
 
 }
