@@ -7,21 +7,22 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     public InputActionAsset actions;
-
     private InputAction moveAction;
+    private InputAction jumpAction;
+
     public Vector2 moveVector;
-    public bool jumpTrigger = false;
-    public bool jumpDisabled = false;
+    public bool jumpTrigger;
 
     void Awake()
     {
         moveAction = actions.FindActionMap("Player").FindAction("Move");
-        //jumpAction = actions.FindActionMap("Player").FindAction("Jump");
-       // moveAction.performed += OnMove;
-        //actions.FindActionMap("Player").FindAction("Jump").performed += OnJump;
-        //actions.FindActionMap("Player").FindAction("Jump").canceled += OnJumpCancel;
+        jumpAction = actions.FindActionMap("Player").FindAction("Jump");
+
+        jumpAction.performed += OnJump;
+        jumpAction.canceled += OnJumpCancel;
     
     }
+
     void Update()
     {
         ReadMoveInput();   
@@ -49,8 +50,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnJumpCancel(InputAction.CallbackContext context)
     {
-        jumpDisabled = true;
-        Debug.Log(actions.FindActionMap("Player").FindAction("Jump").ReadValue<float>());
+        jumpTrigger = false;
     }
 
 }
