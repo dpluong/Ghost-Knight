@@ -94,7 +94,7 @@ public class CharacterController : MonoBehaviour
 
     private void Jump()
     {
-        if (playerInput.jumpTrigger && onGround && Time.time - lastTimeGrounded >= rememberGroundedFor)
+        if (playerInput.jumpTrigger && onGround && Time.time - lastTimeGrounded >= rememberGroundedFor )
         {
             float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
             myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
@@ -103,6 +103,7 @@ public class CharacterController : MonoBehaviour
             jumpTime = 0;
             playerInput.jumpDisabled = false;
             playerInput.jumpTrigger = false;
+            lastTimeGrounded *= 2f;
         }
 
         if (!onGround)
