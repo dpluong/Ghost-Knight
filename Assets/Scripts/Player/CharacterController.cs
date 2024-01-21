@@ -8,7 +8,7 @@ public class CharacterController : MonoBehaviour
 {
     private Rigidbody2D myRigidbody; public Rigidbody2D MyRigidbody => myRigidbody;
     private Transform myTransform;
-    private Animator myAnimator;
+    private Animator myAnimator; public Animator MyAnimator => myAnimator;
     private BoxCollider2D bottomCollider;
     private StateMachine playerStateMachine; public StateMachine PlayerStateMachine => playerStateMachine;
     private PlayerInput playerInput; public PlayerInput PlayerInput => playerInput;
@@ -25,6 +25,8 @@ public class CharacterController : MonoBehaviour
     private float jumpTime;
     private bool jumping;
     private bool jumpCancelled;
+    public float lastTimeGrounded;
+    [SerializeField] float rememberGroundedFor = 0.2f;
     private bool onGround; public bool IsGrounded => onGround;
 
     void Awake()
@@ -51,10 +53,15 @@ public class CharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
-        onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
+        CheckIfGrounded();
         Move();
         Jump();
         AdjustJumpHeight();
+    }
+
+    private void CheckIfGrounded()
+    {
+        onGround = Physics2D.IsTouchingLayers(bottomCollider, groundLayers);
     }
 
     private void AdjustJumpHeight()
@@ -62,6 +69,7 @@ public class CharacterController : MonoBehaviour
         if (jumpCancelled && jumping && myRigidbody.velocity.y > 0)
         {
             myRigidbody.AddForce(Vector2.down * cancelRate);
+            jumpCancelled = false;
         }
     }
 
@@ -71,9 +79,10 @@ public class CharacterController : MonoBehaviour
         {
             jumpTime += Time.deltaTime;
             
-            if (!playerInput.jumpTrigger)
+            if (playerInput.jumpDisabled)
             {
                 jumpCancelled = true;
+                playerInput.jumpDisabled = false;
             }
 
             if (jumpTime > buttonHoldingTime)
@@ -85,13 +94,20 @@ public class CharacterController : MonoBehaviour
 
     private void Jump()
     {
-        if (playerInput.jumpTrigger && onGround)
+        if (playerInput.jumpTrigger && onGround && Time.time - lastTimeGrounded >= rememberGroundedFor)
         {
             float jumpForce = Mathf.Sqrt(jumpHeight * -2 * (Physics2D.gravity.y * myRigidbody.gravityScale));
             myRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             jumping = true;
             jumpCancelled = false;
             jumpTime = 0;
+            playerInput.jumpDisabled = false;
+            playerInput.jumpTrigger = false;
+        }
+
+        if (!onGround)
+        {
+            playerInput.jumpTrigger = false;
         }
     }
     

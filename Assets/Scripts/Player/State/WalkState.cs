@@ -16,6 +16,7 @@ namespace DesignPatterns.State
         public void Enter()
         {
             Debug.Log("Entering Walk State");
+            player.MyAnimator.Play("Run_MainCharacter");
         }
 
         public void Update()

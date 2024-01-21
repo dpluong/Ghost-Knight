@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
 
     public Vector2 moveVector;
     public bool jumpTrigger;
+    public bool jumpDisabled;
 
     void Awake()
     {
@@ -50,7 +51,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnJumpCancel(InputAction.CallbackContext context)
     {
-        jumpTrigger = false;
+        jumpDisabled = true;
     }
 
 }

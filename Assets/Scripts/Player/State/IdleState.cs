@@ -16,6 +16,7 @@ namespace DesignPatterns.State
 
         public void Enter()
         {
+            player.MyAnimator.Play("Idle_MainCharacter");
             Debug.Log("Entering Idle State");
         }
 

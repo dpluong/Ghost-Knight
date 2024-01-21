@@ -16,12 +16,14 @@ namespace DesignPatterns.State
         public void Enter()
         {
             Debug.Log("Entering Jump State");
+            player.MyAnimator.Play("JumpUp_MainCharacter");
         }
 
         public void Update()
         {
             if (player.IsGrounded)
             {
+                player.lastTimeGrounded = Time.time;
                 if (Mathf.Abs(player.MyRigidbody.velocity.x) < 0.1f && Mathf.Abs(player.MyRigidbody.velocity.y) < 0.1f)
                 {
                     player.PlayerStateMachine.TransitionTo(player.PlayerStateMachine.idleState);

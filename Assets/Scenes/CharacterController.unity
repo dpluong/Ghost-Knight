@@ -549,10 +549,6 @@ MonoBehaviour:
   buttonHoldingTime: 0.2
   jumpHeight: 1.2
   cancelRate: 90
-  actions: {fileID: -944628639613478452, guid: 4ad1dd3045012f44e8323b976a989d94, type: 3}
-  moveVector: {x: 0, y: 0}
-  jumpTrigger: 0
-  jumpDisabled: 0
 --- !u!114 &1443203919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,7 +556,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443203910}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 927823bd0c3465f4b965897668fd9251, type: 3}
   m_Name: 
